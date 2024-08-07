@@ -1,0 +1,31 @@
+{
+  "name": "Blueberry Fashion World",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "Packages": {
+        "$path": "Packages"
+      },
+      "RojoSource": {
+        "$path": "src/Shared"
+      }
+    },
+    "ServerScriptService": {
+      "RojoSource": {
+        "$path": "src/Server"
+      }
+    },
+    "StarterPlayer": {
+      "StarterPlayerScripts": {
+        "RojoSource": {
+          "$path": "src/Client"
+        }
+      }
+    }
+  },
+  "servePlaceIds": [
+    11452349236,
+    18502515963,
+    0
+  ]
+}

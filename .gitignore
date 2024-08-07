@@ -1,41 +1,16 @@
-# Compiled Lua sources
-luac.out
+# Project place file
+/fashion-world.rbxlx
 
-# luarocks build files
-*.src.rock
-*.zip
-*.tar.gz
+# Packages
+Packages/
 
-# Object files
-*.o
-*.os
-*.ko
-*.obj
-*.elf
+# Roblox Studio lock files
+/*.rbxlx.lock
+/*.rbxl.lock
 
-# Precompiled Headers
-*.gch
-*.pch
+# Output folder
+/out/*
+!/out/.gitignore
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-*.def
-*.exp
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
+# Sourcemap
+**/sourcemap.json
