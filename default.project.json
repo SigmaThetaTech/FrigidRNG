@@ -1,5 +1,5 @@
 {
-  "name": "Blueberry Fashion World",
+  "name": "sigmathetatech/sigmatech-luau-project-base",
   "tree": {
     "$className": "DataModel",
     "ReplicatedStorage": {

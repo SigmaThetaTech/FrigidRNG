@@ -28,14 +28,14 @@ Alternatively, you may use a package manager to download & install aftman:
 
 2. With Aftman installed, navigate to the root directory of this repository and run `aftman install` to install the required CLI tools according to the `aftman.toml` file in the project root.
     ```bash
-    PS C:\Users\username\Documents\GitHub\fashion-world> aftman install
+    PS C:\Users\username\Documents\GitHub\repo_name> aftman install
     ```
 
 2. ~~Run `wally install`~~ Lune will keep packages up-to-date for you!
 3. Run `lune run init` in terminal to generate the project files. **You must do this every time you open the project for the first time.** This is spiritual replacement for running `rojo serve`.
   
       ```bash
-      PS C:\Users\username\Documents\GitHub\fashion-world> lune run init
+      PS C:\Users\username\Documents\GitHub\repo_name> lune run init
       ```
 <br>
 
