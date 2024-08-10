@@ -64,9 +64,11 @@ VS Code snippets are provided to serve as a template for commonly used code patt
 | `service`| Inserts a template for a sever-side "service" ModuleScript with :Init() and :Start() lifecycle methods. Use after `header`. |
 | `controller` | Inserts a template for a client-side "controller" ModuleScript with :Init() and :Start() lifecycle methods. Use after `header`. |
 | `method` | Inserts a template for a method with Moonwave-ready documentation. Traverse placeholders with [Tab] to enter apropriate fields. |
-| `component` | Inserts a template for an [RBXUtil component](https://sleitnick.github.io/RbxUtil/api/Component/) with lifecycle methods. Note that this refers to an ECS component and not a UI component. Header already included. |
-| `class` | Inserts a template for a typed class with a Janitor for garbage collection. Header is already included. |
-| `fusioncomponent` | Inserts a template for a functional [Fusion](https://elttob.uk/Fusion/0.2/) component with typed props. Header already included. |
+| `remotefunction` | Use inside `Network.luau` to create a RemoteFunction with types. |
+| `remoteevent` | Use inside `Network.luau` to create a RemoteEvent with types. |
+| `component` | Complete file template for an [RBXUtil component](https://sleitnick.github.io/RbxUtil/api/Component/) with lifecycle methods. Note that this refers to an ECS component and not a UI component. Header already included. |
+| `class` | Complete file template for a typed class with a Janitor for garbage collection. Header is already included. |
+| `fusioncomponent` | Complete file template for a functional [Fusion](https://elttob.uk/Fusion/0.2/) component with typed props. Header already included. |
 
 ### Other Snippets
 | Prefix | Purpose |
@@ -82,10 +84,9 @@ VS Code snippets are provided to serve as a template for commonly used code patt
   When renaming a folder or file in the src, please follow the following steps to prevent bugs due to duplicate files:
   1) Stop rojo and darklua by pressing `Ctrl + C` or `Cmd + c` in the terminal you ran `lune run init` in
   2) Rename the folder or file
-  3) Run `lune run init` in terminal to re-generate the output files
-  6) Connect rojo again in Roblox Studio
+  3) Delete rojo output folders in Roblox Studio: `RojoClient`, `RojoServer`, `RojoShared`
+  4) Run `lune run init` in terminal to re-generate the output files
+  5) Connect rojo again in Roblox Studio
 
 ### <u> Roblox UI Explorer </u>
 The [Roblox UI explorer](https://marketplace.visualstudio.com/items?itemName=filiptibell.roblox-ui) is a much more intuitive way to navigate the project file structure versus the IDE explorer. It allows you to quickly, for instance, parent modules to other modules without needing to manually turn a module into a folder with a .init file. It also properly shows which service a module is parented to, which is useful for debugging. All of this uses Rojo's sourcemap.json, so it is always up to date with your files as long as you have run `lune run init`.
-
-<a href="https://gyazo.com/00df5d80f1b581b2d83c26a2185be999"><img src="https://i.gyazo.com/00df5d80f1b581b2d83c26a2185be999.png" alt="Image from Gyazo" width="426"/></a>

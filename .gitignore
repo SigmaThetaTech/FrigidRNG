@@ -1,4 +1,6 @@
-# Project place file
+#VS Code
+.vscode/
+.vs
 
 # Packages
 Packages/

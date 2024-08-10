@@ -6,18 +6,18 @@
       "Packages": {
         "$path": "Packages"
       },
-      "RojoSource": {
+      "RojoShared": {
         "$path": "out/Shared"
       }
     },
     "ServerScriptService": {
-      "RojoSource": {
+      "RojoServer": {
         "$path": "out/Server"
       }
     },
     "StarterPlayer": {
       "StarterPlayerScripts": {
-        "RojoSource": {
+        "RojoClient": {
           "$path": "out/Client"
         }
       }

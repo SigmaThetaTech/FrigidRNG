@@ -11,7 +11,12 @@
 --// Requires //--
 local Loader = require("@Packages/Loader")
 
---// Types //--
+-- Make sure there is a Services folder
+if not script.Parent:FindFirstChild("Services") then
+    local controllersFolder: Folder = Instance.new("Folder")
+    controllersFolder.Name = "Services"
+    controllersFolder.Parent = script.Parent
+end
 
 --// Constants //--
 local SERVICES_FOLDER: Folder = script.Parent.Services

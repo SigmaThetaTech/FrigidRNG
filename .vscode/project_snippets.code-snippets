@@ -434,5 +434,21 @@
 		],
 		"description": "An organizational header for a code section."
 	},
+
+	"RemoteFunction": {
+		"prefix": ["remotefunction"],
+		"body": [
+			"${1:RemoteFunctionName} = RemoteFunction(\"${1:RemoteFunctionName}\") :: RF<(${2:ArgumentTypes}), (${3:ReturnTypes})>,",
+		],
+		"description": "Writes a RemoteFunction declaration for the Network.luau module."
+	},
+
+	"RemoteEvent": {
+		"prefix": ["remoteevent"],
+		"body": [
+			"${1:RemoteEventName} = RemoteEvent(\"${1:RemoteEventName}\") :: RF<(${2:ArgumentTypes})>,",
+		],
+		"description": "Writes a RemoteEvent declaration for the Network.luau module."
+	},
 }
 
