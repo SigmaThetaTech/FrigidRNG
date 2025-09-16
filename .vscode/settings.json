@@ -14,22 +14,22 @@
     "luau-lsp.require.mode": "relativeToWorkspaceRoot",
     "luau-lsp.require.directoryAliases": {
         "@Packages": "Packages/",
-
+        "@SvrPackages": "ServerPackages/",
         "@Client": "src/Client/",
         "@UI": "src/Client/UI/",
         "@Components": "src/Client/UI/Components/",
         "@ClientModules": "src/Client/ClientModules/",
         "@Controllers": "src/Client/Controllers/",
-
         "@Shared": "src/Shared/",
         "@SharedModules": "src/Shared/SharedModules/",
         "@Network": "src/Shared/Network.luau",
-
         "@Server": "src/Server/",
         "@ServerModules": "src/Server/ServerModules/",
-        "@Services": "src/Server/Services/",
+        "@Services": "src/Server/Services/"
     },
     "roblox-ui.explorer.showClassNames": true,
     "roblox-ui.explorer.showDataModel": true,
     "roblox-ui.sourcemap.rojoProjectFile": "default.project.json",
+    "luau-lsp.completion.showPropertiesOnMethodCall": true,
+    "stylua.targetReleaseVersion": "latest",
 }

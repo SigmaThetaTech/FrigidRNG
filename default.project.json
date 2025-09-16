@@ -15,6 +15,14 @@
         "$path": "src/Server"
       }
     },
+    "ServerStorage": {
+      "Stories": {
+        "$path": "Stories"
+      },
+      "ServerPackages": {
+        "$path": "ServerPackages"
+      }
+    },
     "StarterPlayer": {
       "StarterPlayerScripts": {
         "RojoClient": {
@@ -22,10 +30,5 @@
         }
       }
     }
-  },
-  "servePlaceIds": [
-    11452349236,
-    18502515963,
-    0
-  ]
+  }
 }

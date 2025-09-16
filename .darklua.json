@@ -11,6 +11,7 @@
                 "name": "path",
                 "sources": {
                     "@Packages": "Packages/",
+                    "@SvrPackages": "ServerPackages/",
 
                     "@Client": "src/Client/",
                     "@UI": "src/Client/UI/",
