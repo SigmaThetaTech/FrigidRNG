@@ -1,0 +1,34 @@
+{
+  "name": "sigmathetatech/sigmatech-luau-project-base",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "Packages": {
+        "$path": "Packages"
+      },
+      "RojoShared": {
+        "$path": "src/Shared"
+      }
+    },
+    "ServerScriptService": {
+      "RojoServer": {
+        "$path": "src/Server"
+      }
+    },
+    "ServerStorage": {
+      "Stories": {
+        "$path": "Stories"
+      },
+      "ServerPackages": {
+        "$path": "ServerPackages"
+      }
+    },
+    "StarterPlayer": {
+      "StarterPlayerScripts": {
+        "RojoClient": {
+          "$path": "src/Client"
+        }
+      }
+    }
+  }
+}

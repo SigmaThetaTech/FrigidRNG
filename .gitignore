@@ -1,0 +1,17 @@
+#VS Code
+.vscode/
+.vs
+
+# Packages
+Packages/
+
+# Roblox Studio lock files
+/*.rbxlx.lock
+/*.rbxl.lock
+
+# Output folder
+/out/*
+!/out/.gitignore
+
+# Sourcemap
+**/sourcemap.json
