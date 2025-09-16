@@ -4,6 +4,7 @@
 
 # Packages
 Packages/
+ServerPackages/
 
 # Roblox Studio lock files
 /*.rbxlx.lock

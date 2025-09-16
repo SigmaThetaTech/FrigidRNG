@@ -20,8 +20,8 @@ end
 
 --// Constants //--
 local CONTROLLERS_FOLDER: Folder = script.Parent.Controllers
-local INIT_METHOD_NAME: string = "Init"
-local START_METHOD_NAME: string = "Start"
+local INIT_METHOD_NAME: string = "InterlaceInit"
+local START_METHOD_NAME: string = "InterlaceStart"
 
 --// Volatiles //--
 local controllers: { [string]: any } = Loader.LoadDescendants(CONTROLLERS_FOLDER, Loader.MatchesName("Controller$"))
