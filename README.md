@@ -98,7 +98,7 @@ VS Code snippets are provided to serve as a template for commonly used code patt
 | `remoteevent` | Use inside `Network.luau` to create a RemoteEvent with types. |
 | `component` | Complete file template for an [RBXUtil component](https://sleitnick.github.io/RbxUtil/api/Component/) with lifecycle methods. Note that this refers to an ECS component and not a UI component. Header already included. |
 | `class` | Complete file template for a typed class with a Janitor for garbage collection. Header is already included. |
-| `fusioncomponent` | Complete file template for a functional [Fusion](https://elttob.uk/Fusion/0.2/) component with typed props. Header already included. |
+| `fusioncomponent` | Complete file template for a functional [Fusion](https://elttob.uk/Fusion/0.3/) component with typed props. Header already included. |
 
 ### Other Snippets
 | Prefix | Purpose |
@@ -120,3 +120,40 @@ VS Code snippets are provided to serve as a template for commonly used code patt
 
 ### <u> Roblox UI Explorer </u>
 The [Roblox UI explorer](https://marketplace.visualstudio.com/items?itemName=filiptibell.roblox-ui) is a much more intuitive way to navigate the project file structure versus the IDE explorer. It allows you to quickly, for instance, parent modules to other modules without needing to manually turn a module into a folder with a .init file. It also properly shows which service a module is parented to, which is useful for debugging. All of this uses Rojo's sourcemap.json, so it is always up to date with your files as long as you have run `lune run init`.
+
+## Skins image uploader (GitHub -> Roblox Open Cloud)
+
+This repository includes a small Python utility that parses `skins.json`, locates `raw.githubusercontent.com` PNG URLs, downloads them, and uploads each image to Roblox Open Cloud as an Image asset. It safely rate-limits requests and persists state to only process new/changed images on subsequent runs.
+
+Reference: [Roblox Open Cloud: POST /v1/assets](https://create.roblox.com/docs/reference/cloud/assets/v1#POST-v1-assets)
+
+### Setup
+1. Install Python 3.10+.
+2. Install dependencies:
+   ```powershell
+   pip install -r requirements.txt
+   ```
+3. Set your Open Cloud API key (must have Assets.Write scope). Example for PowerShell:
+   ```powershell
+   $env:ROBLOX_API_KEY = "rbx_oauth_xxx_your_token_here"
+   ```
+   Optionally, create a `.env` file next to the repo root with `ROBLOX_API_KEY=...`.
+
+### Run examples
+- Dry-run to preview which images would be uploaded:
+  ```powershell
+  python scripts\upload_skins_images.py --dry-run --max 10
+  ```
+- Upload under a Group creator (replace the ID):
+  ```powershell
+  python scripts\upload_skins_images.py --group-id 1234567 --rpm 50
+  ```
+- Only include images whose URL contains a substring (can repeat):
+  ```powershell
+  python scripts\upload_skins_images.py --include-substring weapon_cases --include-substring base_weapons
+  ```
+
+Notes:
+- State is saved at `.state/skins_image_uploads.json` and used to skip previously uploaded content unless the source image changes.
+- The tool defaults to 50 requests/minute and counts polls; adjust `--rpm` below your total account limit (60 rpm across all keys).
+- Windows Task Scheduler can be used to run this periodically. Example action: `python` with arguments `scripts\upload_skins_images.py --group-id 1234567 --rpm 50` and Start in set to the repo root.
