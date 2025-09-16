@@ -20,8 +20,8 @@ end
 
 --// Constants //--
 local SERVICES_FOLDER: Folder = script.Parent.Services
-local INIT_METHOD_NAME: string = "Init"
-local START_METHOD_NAME: string = "Start"
+local INIT_METHOD_NAME: string = "InterlaceInit"
+local START_METHOD_NAME: string = "InterlaceStart"
 
 --// Volatiles //--
 local services: { [string]: any } = Loader.LoadDescendants(SERVICES_FOLDER, Loader.MatchesName("Service$"))

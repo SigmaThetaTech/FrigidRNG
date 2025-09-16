@@ -49,6 +49,36 @@ Alternatively, you may use a package manager to download & install aftman:
 <br>
 **DO NOT** use the VSCode extension for rojo as it uses an outdated, '22 version of Rojo that does not support newer sourcemap features.
 
+# 🧶 Interlace Framework
+This repository's "framework" is a modern derivative of Knit, affectionately called "Interlace". Interlace uses type-annotated remotes, works with intellisense, and functions nearly identical to Knit:
+
+### 🧵 <u>Lifecycle Methods</u>
+Interlace follows a similar execution model as Knit. First, the network is set up and remotes are created. Then, the `:InterlaceInit()` method is called sequentially. After that, all modules descendants of `./src/Client` and `./src/Server` that *aren't* services or controllers are required. Finally, the `:InterlaceStart()` method is called on all services and controllers.
+
+| Interlace Lifecycle Method | Knit Equivalent | Description |
+|-|-|-|
+| `:InterlaceInit()` | `:KnitInit()` | Called first. Remotes are guaranteed to be present at this stage. |
+| `:InterlaceStart()` | `:KnitStart()` | Called after :InterlaceInit(). Execute game instructions here. |
+
+### ⚡ <u>Interlace Remotes</u>
+Interlace utilizes a centralized, type-annotated network module written in Luau to handle the creation of RemoteEvents and RemoteFunctions ahead of Interlace initialization. This means that remotes are guaranteed to be present before `:InterlaceInit()` and `:InterlaceStart()` are called. Requiring the Network module is simple:
+```lua
+local Network = require("@Network")
+```
+Treat the network module as a dictionary of RemoteEvents and RemoteFunctions instances. Intellisense will show you available remotes as well as their parameters and return types. To create a remote, head to the `Network.luau` file under Shared and use the `remotefunction` or `remoteevent` snippets to create a new typed remote:
+
+```lua
+-- Network.luau
+-- ...
+return {
+  RemoteFunctionName = RemoteFunction("RemoteFunctionName") :: RF<(argumentTypes), (returnTypes)>,
+  RemoteEventName = RemoteEvent("RemoteEventName") :: RE<(argumentTypes)>,
+}
+```
+
+Refer to Roblox's [RemoteFunction](https://create.roblox.com/docs/reference/engine/classes/RemoteFunction) and [RemoteEvent](https://create.roblox.com/docs/reference/engine/classes/RemoteEvent) API documentation just like you would with any normal RemoteFunction or RemoteEvent. The only difference is that you can now see the types of the arguments and return values in your IDE. This was the goal with Interlace: The freedom of good ol' RemoteEvents and RemoteFunctions, but with the power of type annotations.
+<br />
+
 # Snippets
 VS Code snippets are provided to serve as a template for commonly used code patterns specific to this codebase. They help with visual organization and speed up the development process by writing boilerplate code for you. Snippets are located in the `.vscode/project_snippets.code-snippets` file. 
 
