@@ -1,3 +1,5 @@
+--!nocheck
+
 local process = require("@lune/process")
 local task = require("@lune/task")
 local fs = require("@lune/fs")
@@ -103,10 +105,20 @@ else
 	end
 	task.wait(0.5) -- So user can visually see the output directory being reset
 end
+
+--"darklua process --watch src out", -- [Watch the source files and compile them to the output directory]
+task.spawn(function()
+	print("[STEP 1]: Watching the source files and compiling them to the output directory...")
+	process.spawn("darklua", {"process", "--watch", "src", "out",}, {
+		-- Redirect the output to the console
+		stdio = "inherit"
+	})
+end)
+task.wait(0.5)
  
 -- rojo sourcemap default.project.json --o sourcemap.json, -- [Watch the Rojo project to regenerate the sourcemap]
 task.spawn(function()
-	print("[STEP 1]: Watching the Rojo project to regenerate the sourcemap...")
+	print("[STEP 2]: Watching the Rojo project to regenerate the sourcemap...")
 	process.spawn("rojo", {"sourcemap", "--watch", "default.project.json", "--output", "sourcemap.json"}, {
 		-- Redirect the output to the console
 		stdio = "inherit"
@@ -115,17 +127,8 @@ end)
 
 -- wally-package-types --sourcemap sourcemap.json Packages/ Provide the sourcemap to wally-package-types to retrieve relevant types and append them to the top of the package thunk
 task.spawn(function()
-	print("[STEP 2]: Watching the sourcemap to retrieve relevant types and append them to the top of the package thunk...")
+	print("[STEP 3]: Watching the sourcemap to retrieve relevant types and append them to the top of the package thunk...")
 	process.spawn("wally-package-types", {"--sourcemap", "sourcemap.json", "Packages/"})
-end)
-
---"darklua process --watch src out", -- [Watch the source files and compile them to the output directory]
-task.spawn(function()
-	print("[STEP 3]: Watching the source files and compiling them to the output directory...")
-	process.spawn("darklua", {"process", "--watch", "src", "out",}, {
-		-- Redirect the output to the console
-		stdio = "inherit"
-	})
 end)
 
 --"rojo serve build.project.json", -- [Serve the Rojo project]
