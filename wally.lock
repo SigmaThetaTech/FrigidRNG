@@ -23,6 +23,11 @@ version = "1.16.0"
 dependencies = [["Promise", "evaera/promise@4.0.0"]]
 
 [[package]]
+name = "sigmathetatech/sigmatech-luau-project-base"
+version = "0.1.0"
+dependencies = [["Component", "sleitnick/component@2.4.8"], ["Fusion", "elttob/fusion@0.2.0"], ["Fusion-Components", "virtualbutfake/fusion-components@0.1.12"], ["Janitor", "howmanysmall/janitor@1.16.0"], ["Loader", "sleitnick/loader@2.0.0"], ["ProfileService", "brittonfischer/profileservice@2.1.5"], ["Promise", "evaera/promise@4.0.0"], ["Signal", "sleitnick/signal@2.0.1"], ["TypedRemote", "sleitnick/typed-remote@0.2.0"]]
+
+[[package]]
 name = "sleitnick/component"
 version = "2.4.8"
 dependencies = [["Promise", "evaera/promise@4.0.0"], ["Signal", "sleitnick/signal@2.0.1"], ["Symbol", "sleitnick/symbol@2.0.1"], ["Trove", "sleitnick/trove@1.4.0"]]
@@ -76,8 +81,3 @@ dependencies = []
 name = "virtualbutfake/theme-framework"
 version = "0.1.2"
 dependencies = [["fusion", "elttob/fusion@0.2.0"], ["fusionUtils", "virtualbutfake/fusion-utils@0.1.2"], ["tailwind", "virtualbutfake/tailwind@0.1.1"]]
-
-[[package]]
-name = "sigmathetatech/sigmatech-luau-project-base"
-version = "0.1.0"
-dependencies = [["Component", "sleitnick/component@2.4.8"], ["Fusion", "elttob/fusion@0.2.0"], ["Fusion-Components", "virtualbutfake/fusion-components@0.1.12"], ["Janitor", "howmanysmall/janitor@1.16.0"], ["Loader", "sleitnick/loader@2.0.0"], ["ProfileService", "brittonfischer/profileservice@2.1.5"], ["Promise", "evaera/promise@4.0.0"], ["Signal", "sleitnick/signal@2.0.1"], ["TypedRemote", "sleitnick/typed-remote@0.2.0"]]
