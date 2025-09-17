@@ -71,19 +71,30 @@ return function(props: Props)
     end
 
     children.layout = React.createElement("UIGridLayout", {
-        CellPadding = UDim2.fromOffset(12, 12),
-        CellSize = UDim2.fromScale(0.23, 0.2),
+        CellPadding = UDim2.fromOffset(16, 16),
+        CellSize = UDim2.fromOffset(216, 166),
         SortOrder = Enum.SortOrder.LayoutOrder,
         FillDirectionMaxCells = 4,
+        HorizontalAlignment = Enum.HorizontalAlignment.Left,
+        VerticalAlignment = Enum.VerticalAlignment.Top,
     })
 
-    return React.createElement("ScrollingFrame", {
-        LayoutOrder = props.LayoutOrder,
+    return React.createElement("Frame", {
         BackgroundTransparency = 1,
-        Size = UDim2.fromScale(0.78, 0.86),
-        CanvasSize = UDim2.new(),
-        ScrollBarImageColor3 = Color3.fromRGB(160, 160, 160),
-    }, children)
+        Position = UDim2.fromScale(0.193495, 0.233879),
+        Size = UDim2.fromScale(0.681656, 0.752311),
+        LayoutOrder = props.LayoutOrder,
+    }, {
+        scrolling = React.createElement("ScrollingFrame", {
+            AutomaticCanvasSize = Enum.AutomaticSize.Y,
+            BackgroundTransparency = 1,
+            ScrollBarImageColor3 = Color3.new(),
+            ScrollBarThickness = 10,
+            ScrollingDirection = Enum.ScrollingDirection.Y,
+            Selectable = false,
+            Size = UDim2.fromScale(1, 1),
+        }, table.clone(children))
+    })
 end
 
 

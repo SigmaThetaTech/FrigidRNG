@@ -4,7 +4,7 @@ local RoactSpring = require("@Packages/Roact-Spring")
 return React.createElement("Frame", {
     BackgroundTransparency = 1,
     SelectionGroup = true,
-    Size = UDim2.fromScale(0.114642, 0.132554),
+    Size = UDim2.fromScale(1, 1),
   }, {
     icon = React.createElement("ImageLabel", {
       BackgroundTransparency = 1,

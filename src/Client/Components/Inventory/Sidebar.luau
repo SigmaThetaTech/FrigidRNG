@@ -1,5 +1,5 @@
 local React = require("@Packages/React")
-local Button = require(script.Parent.components.Button)
+local Button = require(script.Parent.Parent.Button)
 
 type Props = {
     sortMode: string,
@@ -28,7 +28,8 @@ return function(props: Props)
 
     return React.createElement("Frame", {
         BackgroundTransparency = 1,
-        Size = UDim2.fromScale(0.18, 1),
+        Position = UDim2.fromScale(0.0617022, 0.222222),
+        Size = UDim2.fromScale(0.118503, 0.604645),
         LayoutOrder = 1,
     }, {
         list = React.createElement("UIListLayout", {
@@ -41,21 +42,17 @@ return function(props: Props)
             Text = "Sort By",
             FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Heavy),
             TextScaled = true,
-            Size = UDim2.fromScale(1, 0.06),
+            Size = UDim2.fromScale(1, 0.4),
         }),
 
-        sortButton = React.createElement(Button :: any, {
-            text = SORT_ORDER[sortIndex],
-            LayoutOrder = 2,
-            onActivated = cycleSort,
-        }),
+        sortButton = React.createElement(Button :: any, { text = SORT_ORDER[sortIndex], LayoutOrder = 2, onActivated = cycleSort, position = UDim2.fromScale(0.157637, 0.562059), size = UDim2.fromScale(0.687769, 0.437941) }),
 
         autoSellLabel = React.createElement("TextLabel", {
             BackgroundTransparency = 1,
             Text = "Auto Sell",
             FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Heavy),
             TextScaled = true,
-            Size = UDim2.fromScale(1, 0.06),
+            Size = UDim2.fromScale(1, 0.4),
         }),
 
         autoSellField = React.createElement("TextBox", {
@@ -83,16 +80,16 @@ return function(props: Props)
             Text = "Quick Sell",
             FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Heavy),
             TextScaled = true,
-            Size = UDim2.fromScale(1, 0.06),
+            Size = UDim2.fromScale(1, 0.4),
         }),
 
-        quickGrey = React.createElement(Button :: any, { text = "Grey", color = Color3.fromRGB(128,128,128), onActivated = function() props.onQuickSellColor("#808080") end }),
-        quickLightBlue = React.createElement(Button :: any, { text = "Light Blue", color = Color3.fromRGB(102, 204, 255), onActivated = function() props.onQuickSellColor("#66ccff") end }),
-        quickBlue = React.createElement(Button :: any, { text = "Blue", color = Color3.fromRGB(0, 119, 255), onActivated = function() props.onQuickSellColor("#0077ff") end }),
-        quickPurple = React.createElement(Button :: any, { text = "Purple", color = Color3.fromRGB(153, 51, 255), onActivated = function() props.onQuickSellColor("#9933ff") end }),
-        quickPink = React.createElement(Button :: any, { text = "Pink", color = Color3.fromRGB(255, 102, 178), onActivated = function() props.onQuickSellColor("#ff66b2") end }),
-        quickRed = React.createElement(Button :: any, { text = "Red", color = Color3.fromRGB(235, 75, 75), onActivated = function() props.onQuickSellColor("#eb4b4b") end }),
-        quickGold = React.createElement(Button :: any, { text = "Gold", color = Color3.fromRGB(244, 197, 58), onActivated = function() props.onQuickSellColor("#f4c53a") end }),
+        quickGrey = React.createElement(Button :: any, { text = "Grey", color = Color3.fromRGB(205,214,239), position = UDim2.fromScale(0.157637, 0.562059), size = UDim2.fromScale(0.687769, 0.437941), onActivated = function() props.onQuickSellColor("#808080") end }),
+        quickLightBlue = React.createElement(Button :: any, { text = "Light Blue", color = Color3.fromRGB(148,200,255), position = UDim2.fromScale(0.157637, 0.562059), size = UDim2.fromScale(0.687769, 0.437941), onActivated = function() props.onQuickSellColor("#66ccff") end }),
+        quickBlue = React.createElement(Button :: any, { text = "Blue", color = Color3.fromRGB(74, 122, 255), position = UDim2.fromScale(0.157637, 0.562059), size = UDim2.fromScale(0.687769, 0.437941), onActivated = function() props.onQuickSellColor("#0077ff") end }),
+        quickPurple = React.createElement(Button :: any, { text = "Purple", color = Color3.fromRGB(123, 83, 255), position = UDim2.fromScale(0.157637, 0.562059), size = UDim2.fromScale(0.687769, 0.437941), onActivated = function() props.onQuickSellColor("#9933ff") end }),
+        quickPink = React.createElement(Button :: any, { text = "Pink", color = Color3.fromRGB(231, 49, 255), position = UDim2.fromScale(0.157637, 0.562059), size = UDim2.fromScale(0.687769, 0.437941), onActivated = function() props.onQuickSellColor("#ff66b2") end }),
+        quickRed = React.createElement(Button :: any, { text = "Red", color = Color3.fromRGB(255, 65, 68), position = UDim2.fromScale(0.157637, 0.562059), size = UDim2.fromScale(0.687769, 0.437941), onActivated = function() props.onQuickSellColor("#eb4b4b") end }),
+        quickGold = React.createElement(Button :: any, { text = "Gold", color = Color3.fromRGB(255, 206, 60), position = UDim2.fromScale(0.157637, 0.562059), size = UDim2.fromScale(0.687769, 0.437941), onActivated = function() props.onQuickSellColor("#f4c53a") end }),
     })
 end
 

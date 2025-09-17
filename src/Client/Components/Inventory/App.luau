@@ -23,16 +23,24 @@ return function()
     local quickSellColor, setQuickSellColor = React.useState(nil :: string?)
 
     return React.createElement("Frame", {
+        AnchorPoint = Vector2.new(0.5, 0),
         BackgroundTransparency = 1,
-        Size = UDim2.fromScale(1, 1),
+        Position = UDim2.fromScale(0.5, 0),
+        Size = UDim2.fromOffset(1920, 1080),
     }, {
-        layout = React.createElement("UIListLayout", {
-            FillDirection = Enum.FillDirection.Horizontal,
-            SortOrder = Enum.SortOrder.LayoutOrder,
-            Padding = UDim.new(0, 16),
-        }),
+        aspect = React.createElement("UIAspectRatioConstraint", { AspectRatio = 1920/1080 }),
 
-        sidebar = React.createElement(Sidebar :: any, {
+        title = React.createElement("TextLabel", {
+            BackgroundTransparency = 1,
+            FontFace = Font.new("rbxasset://fonts/families/SourceSansPro.json", Enum.FontWeight.Heavy),
+            Position = UDim2.fromScale(0.418896, 0.122469),
+            Size = UDim2.fromScale(0.157029, 0.062536),
+            Text = "Inventory",
+            TextColor3 = Color3.new(1,1,1),
+            TextScaled = true,
+        }, { stroke = React.createElement("UIStroke", { Thickness = 1.5, Transparency = 0.5 }) }),
+
+        buttons = React.createElement(Sidebar :: any, {
             sortMode = sortMode,
             onSortModeChanged = setSortMode,
             autoSell = autoSell,
@@ -40,7 +48,7 @@ return function()
             onQuickSellColor = setQuickSellColor,
         }),
 
-        grid = React.createElement(Grid :: any, {
+        skinBox = React.createElement(Grid :: any, {
             LayoutOrder = 2,
             sortMode = sortMode,
             quickSellColor = quickSellColor,
