@@ -2,12 +2,23 @@
 local React = require("@Packages/React")
 local Network = require("@Network")
 
+type Wear = {
+    id: string,
+    name: string,
+}
+
+type Rarity = {
+    id: string,
+    name: string,
+    color: string,
+}
+
 type InventoryItem = {
     market_hash_name: string,
     name: string,
     stattrak: boolean?,
-    wear: string?,
-    rarity: string?,
+    wear: Wear?,
+    rarity: Rarity?,
     image: string,
 }
 
@@ -15,11 +26,14 @@ local InventoryState = {}
 
 local context: any = React.createContext(nil)
 
-local function provider(props)
+-- React function component that hosts stateful hooks
+local function ProviderComponent(props: any)
     local autoSellMinimumCents, setAutoSellMinimumCents = React.useState(0)
     local sort, setSort = React.useState("newest")
     local prices, setPrices = React.useState({} :: any)
-    local inventoryItems, setInventoryItems = React.useState({} :: {InventoryItem})
+local provided = if props then props.initialInventoryItems else nil
+local initialItems: {InventoryItem} = if typeof(provided) == "table" then (provided :: {InventoryItem}) else {}
+    local inventoryItems, setInventoryItems = React.useState(initialItems :: {InventoryItem})
 
     React.useEffect(function()
         -- Fetch initial data from server services
@@ -29,29 +43,7 @@ local function provider(props)
                 setPrices(serverPrices)
             end
         end)
-        task.spawn(function()
-            local ok2, skins = pcall(function() return (Network.GetSkins :: any):InvokeServer() end)
-            if ok2 and typeof(skins) == "table" then
-                -- For demo purposes, take a subset as the player's inventory
-                local items: {InventoryItem} = {}
-                local count = 0
-                for _, s in skins do
-                    if typeof(s) == "table" and s.name and s.image and s.market_hash_name then
-                        table.insert(items, {
-                            market_hash_name = tostring(s.market_hash_name),
-                            name = tostring(s.name),
-                            stattrak = (s.stattrak == true),
-                            wear = if s.wear then tostring(s.wear) else "",
-                            rarity = if s.rarity then tostring(s.rarity) else "",
-                            image = tostring(s.image),
-                        } :: InventoryItem)
-                        count += 1
-                        if count >= 24 then break end
-                    end
-                end
-                setInventoryItems(items)
-            end
-        end)
+        -- Skins are seeded by the controller; no fetch here
     end, {})
 
     return React.createElement(context.Provider, {
@@ -62,16 +54,17 @@ local function provider(props)
             setSort = setSort,
             prices = prices,
             inventoryItems = inventoryItems,
+            setInventoryItems = setInventoryItems,
         },
     }, props["children"])
 end
 
 function InventoryState.Provider(props)
-    return provider(props)
+    return React.createElement(ProviderComponent :: any, props)
 end
 
-function InventoryState.Wrap(child: any)
-    return provider({ children = child })
+function InventoryState.Wrap(child: any, initial: {InventoryItem}?)
+    return React.createElement(ProviderComponent :: any, { initialInventoryItems = initial }, child)
 end
 
 function InventoryState.use()

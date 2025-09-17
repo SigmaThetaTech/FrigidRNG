@@ -3,14 +3,31 @@ local Button = require("@Client/ReactComponents/Button")
 local InventoryState = require("@Client/State/InventoryState")
 local Network = require("@Network")
 
+type Wear = { id: string, name: string }
+type Rarity = { id: string, name: string, color: string }
+
 type Props = {
     market_hash_name: string,
     name: string,
     stattrak: boolean?,
-    wear: string?,
-    rarity: string?,
+    wear: Wear?,
+    rarity: Rarity?,
     image: string,
 }
+
+local function getWearAbbreviation(wearName: string?): string
+    if typeof(wearName) ~= "string" then
+        return ""
+    end
+    local abbreviation = ""
+    for i = 1, #wearName do
+        local char = string.sub(wearName, i, i)
+        if char:match("[A-Z]") then
+            abbreviation ..= char
+        end
+    end
+    return abbreviation
+end
 
 local function getPriceFor(state, marketHashName: string): number
     local entry: any = (state.prices :: any)[marketHashName]
@@ -42,13 +59,13 @@ return function(props: Props)
         BackgroundTransparency = 1,
         SelectionGroup = true,
         Size = UDim2.fromScale(0.114642, 0.132554),
-        ["Event.MouseEnter"] = function()
+        [React.Event.MouseEnter] = function()
             setIsHover(true)
         end,
-        ["Event.MouseLeave"] = function()
+        [React.Event.MouseLeave] = function()
             setIsHover(false)
         end,
-        ["Event.InputBegan"] = function(input)
+        [React.Event.InputBegan] = function(_, input)
             if input.UserInputType == Enum.UserInputType.Touch then
                 setIsToggled(not isToggled)
             end
@@ -92,7 +109,7 @@ return function(props: Props)
             ),
             Position = UDim2.fromScale(0.03, 0.54),
             Size = UDim2.fromScale(0.153323, 0.196574),
-            Text = props.wear or "",
+            Text = getWearAbbreviation(if props.wear then props.wear.name else nil),
             TextColor3 = Color3.new(1, 1, 1),
             TextScaled = true,
             ZIndex = 3,
@@ -186,7 +203,7 @@ return function(props: Props)
                 Position = UDim2.fromScale(0, 0.791963),
                 RichText = true,
                 Size = UDim2.fromScale(1, 0.45),
-                Text = props.rarity or "",
+                Text = if props.rarity then props.rarity.name else "",
                 TextColor3 = Color3.new(1, 1, 1),
                 TextScaled = true,
                 TextXAlignment = Enum.TextXAlignment.Left,

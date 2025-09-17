@@ -23,6 +23,7 @@ local SKINS_URL = "https://raw.githubusercontent.com/ByMykel/CSGO-API/main/publi
 
 --Σ Volatiles Σ--
 local _skins: SkinsArray = {}
+local _skinsInitialized = false
 
 --------------------------------------------------------------------------------
 --MARK: Private Functions
@@ -44,6 +45,7 @@ local function fetchSkins(): SkinsArray
         warn("SkinsService: Failed to decode skins JSON. Returning cached/empty.")
         return _skins
     end
+    _skinsInitialized = true
     return decoded :: SkinsArray
 end
 
@@ -62,7 +64,12 @@ end
 --------------------------------------------------------------------------------
 
 function SkinsService:InterlaceInit()
-    (Network.GetSkins :: any).OnServerInvoke = function(_player)
+    Network.GetSkins.OnServerInvoke = function(_player)
+        if not _skinsInitialized then
+            while not _skinsInitialized do
+                task.wait(0.1)
+            end
+        end
         return _skins
     end
 end
@@ -72,11 +79,11 @@ function SkinsService:InterlaceStart()
         _skins = fetchSkins()
         -- Refresh daily
         while true do
-            task.wait(86400)
             local new = fetchSkins()
             if typeof(new) == "table" then
                 _skins = new
             end
+            task.wait(86400)
         end
     end)
 end

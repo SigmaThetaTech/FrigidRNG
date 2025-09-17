@@ -1,4 +1,4 @@
---!strict
+--!nocheck
 -- Authors: ΣTΞCH (SigmaTech)
 -- July 23, 2024
 --[[

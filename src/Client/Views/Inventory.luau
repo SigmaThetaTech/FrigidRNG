@@ -8,7 +8,7 @@ local Sidebar = require("@Client/ReactComponents/Sidebar")
 local ItemList = require("@Client/ReactComponents/ItemList")
 local InventoryState = require("@Client/State/InventoryState")
 
-return function()
+return function(_props)
     local content = React.createElement("Frame", {
         Name = "Inventory",
         BackgroundTransparency = 1,
@@ -20,7 +20,9 @@ return function()
         }),
 
         sidebar = React.createElement(Sidebar :: any),
-        itemList = React.createElement(ItemList :: any),
+        itemList = React.createElement(ItemList :: any, {
+            getState = InventoryState.use,
+        }),
 
         title = React.createElement("TextLabel", {
             BackgroundTransparency = 1,
@@ -41,8 +43,7 @@ return function()
             }),
         }),
     })
-    -- Wrap with provider to supply global state
-    return InventoryState.Wrap(content)
+    return content
 end
 
 

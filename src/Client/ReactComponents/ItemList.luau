@@ -2,8 +2,13 @@ local React = require("@Packages/React")
 local ItemCard = require("@Client/ReactComponents/ItemCard")
 local InventoryState = require("@Client/State/InventoryState")
 
-return function()
-    local state = InventoryState.use()
+type Props = {
+    -- pass a hook so this list can be reused with different stores
+    getState: (() -> any)?,
+}
+
+return function(props: Props)
+    local state = if props and props.getState then props.getState() else InventoryState.use()
 
     local children: { [string]: any } = {
         uIGridLayout = React.createElement("UIGridLayout", {
