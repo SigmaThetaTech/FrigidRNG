@@ -53,7 +53,27 @@ version = "1.2.7"
 dependencies = []
 
 [[package]]
+name = "jsdotlua/promise"
+version = "3.5.2"
+dependencies = []
+
+[[package]]
 name = "jsdotlua/react"
+version = "17.2.1"
+dependencies = [["luau-polyfill", "jsdotlua/luau-polyfill@1.2.7"], ["shared", "jsdotlua/shared@17.2.1"]]
+
+[[package]]
+name = "jsdotlua/react-reconciler"
+version = "17.2.1"
+dependencies = [["luau-polyfill", "jsdotlua/luau-polyfill@1.2.7"], ["promise", "jsdotlua/promise@3.5.2"], ["react", "jsdotlua/react@17.2.1"], ["scheduler", "jsdotlua/scheduler@17.2.1"], ["shared", "jsdotlua/shared@17.2.1"]]
+
+[[package]]
+name = "jsdotlua/react-roblox"
+version = "17.2.1"
+dependencies = [["luau-polyfill", "jsdotlua/luau-polyfill@1.2.7"], ["react", "jsdotlua/react@17.2.1"], ["react-reconciler", "jsdotlua/react-reconciler@17.2.1"], ["scheduler", "jsdotlua/scheduler@17.2.1"], ["shared", "jsdotlua/shared@17.2.1"]]
+
+[[package]]
+name = "jsdotlua/scheduler"
 version = "17.2.1"
 dependencies = [["luau-polyfill", "jsdotlua/luau-polyfill@1.2.7"], ["shared", "jsdotlua/shared@17.2.1"]]
 
@@ -85,12 +105,7 @@ dependencies = []
 [[package]]
 name = "sigmathetatech/sigmatech-luau-project-base"
 version = "0.1.0"
-dependencies = [["Component", "sleitnick/component@2.4.8"], ["Janitor", "howmanysmall/janitor@1.16.0"], ["Loader", "sleitnick/loader@2.0.0"], ["Promise", "evaera/promise@4.0.0"], ["React", "jsdotlua/react@17.2.1"], ["Signal", "sleitnick/signal@2.0.1"], ["TypedRemote", "sleitnick/typed-remote@0.2.0"]]
-
-[[package]]
-name = "sleitnick/component"
-version = "2.4.8"
-dependencies = [["Promise", "evaera/promise@4.0.0"], ["Signal", "sleitnick/signal@2.0.1"], ["Symbol", "sleitnick/symbol@2.0.1"], ["Trove", "sleitnick/trove@1.4.0"]]
+dependencies = [["Janitor", "howmanysmall/janitor@1.16.0"], ["Loader", "sleitnick/loader@2.0.0"], ["Promise", "evaera/promise@4.0.0"], ["React", "jsdotlua/react@17.2.1"], ["ReactRoblox", "jsdotlua/react-roblox@17.2.1"], ["Signal", "sleitnick/signal@2.0.1"], ["TypedRemote", "sleitnick/typed-remote@0.2.0"]]
 
 [[package]]
 name = "sleitnick/loader"
@@ -100,16 +115,6 @@ dependencies = []
 [[package]]
 name = "sleitnick/signal"
 version = "2.0.1"
-dependencies = []
-
-[[package]]
-name = "sleitnick/symbol"
-version = "2.0.1"
-dependencies = []
-
-[[package]]
-name = "sleitnick/trove"
-version = "1.4.0"
 dependencies = []
 
 [[package]]

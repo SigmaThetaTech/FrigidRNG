@@ -164,7 +164,7 @@ return React.createElement("Frame", {
         Position = UDim2.fromScale(0, 0.791963),
         RichText = true,
         Size = UDim2.fromScale(1, 0.45),
-        Text = "Doppler (<font color="rgb(207, 50, 53)">Ruby</font>)",
+        Text = "Doppler (<font color=\"rgb(207, 50, 53)\">Ruby</font>)",
         TextColor3 = Color3.new(1, 1, 1),
         TextScaled = true,
         TextXAlignment = Enum.TextXAlignment.Left,
