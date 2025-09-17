@@ -1,4 +1,5 @@
 local React = require("@Packages/React")
+local Network = require("@Network")
 
 local Button = require("@Client/ReactComponents/Button")
 local AutoSellInput = require("@Client/ReactComponents/AutoSellInput")
@@ -7,7 +8,7 @@ local AutoSellInput = require("@Client/ReactComponents/AutoSellInput")
 local InventoryState = require("@Client/State/InventoryState")
 
 return function()
-    local state = InventoryState.use()
+    local state: any = InventoryState.use()
 
     return React.createElement("Frame", {
         BackgroundTransparency = 1,
@@ -26,13 +27,30 @@ return function()
             Position = UDim2.fromScale(0, 0),
             Size = UDim2.fromScale(1, 0.157269),
         }, {
-            sortNewest = React.createElement(Button :: any, {
-                text = "Newest",
+            sortToggle = React.createElement(Button :: any, {
+                text = (function()
+                    local labelMap = {
+                        newest = "Newest",
+                        price = "Price",
+                        rarity = "Rarity",
+                        cheapest = "Cheapest",
+                    }
+                    return labelMap[state.sort] or "Newest"
+                end)(),
                 layoutOrder = 2,
                 position = UDim2.fromScale(0.157637, 0.562059),
                 size = UDim2.fromScale(0.687769, 0.437941),
                 onActivated = function()
-                    state.setSort("newest")
+                    local order = { "newest", "price", "rarity", "cheapest" }
+                    local current = state.sort
+                    local nextIndex = 1
+                    for i = 1, #order do
+                        if order[i] == current then
+                            nextIndex = if i == #order then 1 else (i + 1)
+                            break
+                        end
+                    end
+                    state.setSort(order[nextIndex])
                 end,
             }),
             sortBy = React.createElement("TextLabel", {
@@ -131,13 +149,62 @@ return function()
                 Padding = UDim.new(0, 10),
                 SortOrder = Enum.SortOrder.LayoutOrder,
             }),
-            grey = React.createElement(Button :: any, { text = "Grey", color = Color3.fromRGB(205,214,239), layoutOrder = 2, size = UDim2.fromScale(0.687769, 0.437941)}),
-            lightBlue = React.createElement(Button :: any, { text = "Light Blue", color = Color3.fromRGB(148,200,255), layoutOrder = 3, size = UDim2.fromScale(0.687769, 0.437941) }),
-            blue = React.createElement(Button :: any, { text = "Blue", color = Color3.fromRGB(74,122,255), layoutOrder = 4, size = UDim2.fromScale(0.687769, 0.437941) }),
-            purple = React.createElement(Button :: any, { text = "Purple", color = Color3.fromRGB(123,83,255), layoutOrder = 5, size = UDim2.fromScale(0.687769, 0.437941) }),
-            pink = React.createElement(Button :: any, { text = "Pink", color = Color3.fromRGB(231,49,255), layoutOrder = 6, size = UDim2.fromScale(0.687769, 0.437941) }),
-            red = React.createElement(Button :: any, { text = "Red", color = Color3.fromRGB(255,65,68), layoutOrder = 7, size = UDim2.fromScale(0.687769, 0.437941) }),
-            gold = React.createElement(Button :: any, { text = "Gold", color = Color3.fromRGB(255,206,60), layoutOrder = 8, size = UDim2.fromScale(0.687769, 0.437941) }),
+            grey = React.createElement(Button :: any, { text = "Grey", color = Color3.fromRGB(205,214,239), layoutOrder = 2, size = UDim2.fromScale(0.687769, 0.437941), onActivated = function()
+                local hex = "#b0c3d9"
+                for _, item in state.inventoryItems do
+                    if item.rarity and typeof(item.rarity.color) == "string" and string.lower(item.rarity.color) == hex then
+                        (Network.SellItem :: any):FireServer((item :: any).market_hash_name)
+                    end
+                end
+            end }),
+            lightBlue = React.createElement(Button :: any, { text = "Light Blue", color = Color3.fromRGB(148,200,255), layoutOrder = 3, size = UDim2.fromScale(0.687769, 0.437941), onActivated = function()
+                local hex = "#5e98d9"
+                for _, item in state.inventoryItems do
+                    if item.rarity and typeof(item.rarity.color) == "string" and string.lower(item.rarity.color) == hex then
+                        (Network.SellItem :: any):FireServer((item :: any).market_hash_name)
+                    end
+                end
+            end }),
+            blue = React.createElement(Button :: any, { text = "Blue", color = Color3.fromRGB(74,122,255), layoutOrder = 4, size = UDim2.fromScale(0.687769, 0.437941), onActivated = function()
+                local hex = "#4b69ff"
+                for _, item in state.inventoryItems do
+                    if item.rarity and typeof(item.rarity.color) == "string" and string.lower(item.rarity.color) == hex then
+                        (Network.SellItem :: any):FireServer((item :: any).market_hash_name)
+                    end
+                end
+            end }),
+            purple = React.createElement(Button :: any, { text = "Purple", color = Color3.fromRGB(123,83,255), layoutOrder = 5, size = UDim2.fromScale(0.687769, 0.437941), onActivated = function()
+                local hex = "#8847ff"
+                for _, item in state.inventoryItems do
+                    if item.rarity and typeof(item.rarity.color) == "string" and string.lower(item.rarity.color) == hex then
+                        (Network.SellItem :: any):FireServer((item :: any).market_hash_name)
+                    end
+                end
+            end }),
+            pink = React.createElement(Button :: any, { text = "Pink", color = Color3.fromRGB(231,49,255), layoutOrder = 6, size = UDim2.fromScale(0.687769, 0.437941), onActivated = function()
+                local hex = "#d32ce6"
+                for _, item in state.inventoryItems do
+                    if item.rarity and typeof(item.rarity.color) == "string" and string.lower(item.rarity.color) == hex then
+                        (Network.SellItem :: any):FireServer((item :: any).market_hash_name)
+                    end
+                end
+            end }),
+            red = React.createElement(Button :: any, { text = "Red", color = Color3.fromRGB(255,65,68), layoutOrder = 7, size = UDim2.fromScale(0.687769, 0.437941), onActivated = function()
+                local hex = "#eb4b4b"
+                for _, item in state.inventoryItems do
+                    if item.rarity and typeof(item.rarity.color) == "string" and string.lower(item.rarity.color) == hex then
+                        (Network.SellItem :: any):FireServer((item :: any).market_hash_name)
+                    end
+                end
+            end }),
+            gold = React.createElement(Button :: any, { text = "Gold", color = Color3.fromRGB(255,206,60), layoutOrder = 8, size = UDim2.fromScale(0.687769, 0.437941), onActivated = function()
+                local hex = "#e4ae33"
+                for _, item in state.inventoryItems do
+                    if item.rarity and typeof(item.rarity.color) == "string" and string.lower(item.rarity.color) == hex then
+                        (Network.SellItem :: any):FireServer((item :: any).market_hash_name)
+                    end
+                end
+            end }),
         }),
     })
 end

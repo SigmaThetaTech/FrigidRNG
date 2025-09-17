@@ -13,6 +13,7 @@ type Props = {
     wear: Wear?,
     rarity: Rarity?,
     image: string,
+    layoutOrder: number?,
 }
 
 local function getWearAbbreviation(wearName: string?): string
@@ -59,6 +60,7 @@ return function(props: Props)
         BackgroundTransparency = 1,
         SelectionGroup = true,
         Size = UDim2.fromScale(0.114642, 0.132554),
+        LayoutOrder = props.layoutOrder,
         [React.Event.MouseEnter] = function()
             setIsHover(true)
         end,
@@ -152,7 +154,7 @@ return function(props: Props)
                 Thickness = 3,
             }),
             rarity = React.createElement("Frame", {
-                BackgroundColor3 = Color3.fromHex(props.rarity.color),
+                BackgroundColor3 = Color3.fromHex(if props.rarity and props.rarity.color then props.rarity.color else "#ffffff"),
                 BorderSizePixel = 0,
                 Position = UDim2.fromScale(0, 0.94),
                 Size = UDim2.fromScale(1, 0.06),
