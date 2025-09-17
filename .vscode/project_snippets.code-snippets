@@ -68,12 +68,12 @@
 			"--MARK: Lifecycle Methods",
 			"--------------------------------------------------------------------------------",
 			"",
-			"function ${0:$TM_FILENAME_BASE}:Start()",
+			"function ${0:$TM_FILENAME_BASE}:InterlaceStart()",
 			"\t",
 			"end",
 			"",
 			"",
-			"function ${0:$TM_FILENAME_BASE}:Init()",
+			"function ${0:$TM_FILENAME_BASE}:InterlaceInit()",
 			"\t",
 			"end",
 			"",
@@ -81,7 +81,7 @@
 			"return ${0:$TM_FILENAME_BASE}",
 			""
 		],
-		"description": "Inserts a template for a sever-side \"service\" ModuleScript with :Init() and :Start() lifecycle methods. Use after `header`."
+		"description": "Inserts a template for a sever-side \"service\" ModuleScript with :InterlaceInit() and :InterlaceStart() lifecycle methods. Use after `header`."
 	},
 
 	"Controller": {
@@ -106,12 +106,12 @@
 			"--MARK: Lifecycle Methods",
 			"--------------------------------------------------------------------------------",
 			"",
-			"function ${0:$TM_FILENAME_BASE}:Start()",
+			"function ${0:$TM_FILENAME_BASE}:InterlaceStart()",
 			"\t",
 			"end",
 			"",
 			"",
-			"function ${0:$TM_FILENAME_BASE}:Init()",
+			"function ${0:$TM_FILENAME_BASE}:InterlaceInit()",
 			"\t",
 			"end",
 			"",
@@ -119,7 +119,7 @@
 			"return ${0:$TM_FILENAME_BASE}",
 			""
 		],
-		"description": "Inserts a template for a client-side \"controller\" ModuleScript with :Init() and :Start() lifecycle methods. Use after `header`."
+		"description": "Inserts a template for a client-side \"controller\" ModuleScript with :InterlaceInit() and :InterlaceStart() lifecycle methods. Use after `header`."
 	},
 
 	"Method": {
@@ -231,7 +231,7 @@
 				"\tStart is called when the component is started. At this point in time, it is safe to ",
 				"\tgrab other components also bound to the same instance.",
 			"]]",
-			"function ${0:$TM_FILENAME_BASE}:Start()",
+			"function ${0:$TM_FILENAME_BASE}:InterlaceStart()",
 			"end",
 			"",
 			"--[[",
