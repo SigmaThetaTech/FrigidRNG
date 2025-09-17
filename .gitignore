@@ -2,6 +2,9 @@
 .vscode/
 .vs
 
+#Website
+website_src/
+
 # Packages
 Packages/
 ServerPackages/
