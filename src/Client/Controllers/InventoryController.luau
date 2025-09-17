@@ -76,7 +76,7 @@ function InventoryController:InterlaceStart()
                     image = tostring(s.image),
                 })
                 count += 1
-                if count >= 50 then break end
+                if count >= 1000 then break end
             end
         end
     end

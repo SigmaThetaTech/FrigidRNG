@@ -152,7 +152,7 @@ return function(props: Props)
                 Thickness = 3,
             }),
             rarity = React.createElement("Frame", {
-                BackgroundColor3 = Color3.fromRGB(244, 197, 58),
+                BackgroundColor3 = Color3.fromHex(props.rarity.color),
                 BorderSizePixel = 0,
                 Position = UDim2.fromScale(0, 0.94),
                 Size = UDim2.fromScale(1, 0.06),
