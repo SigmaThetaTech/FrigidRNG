@@ -1,17 +1,14 @@
 local React = require("@Packages/React")
 local Button = require("@Client/ReactComponents/Button")
 local InventoryActions = require("@Client/Actions/InventoryActions")
+local Types = require("@SharedModules/Types")
 
 type Wear = { id: string, name: string }
 type Rarity = { id: string, name: string, color: string }
 
 type Props = {
-    market_hash_name: string,
-    name: string,
-    stattrak: boolean?,
-    wear: Wear?,
-    rarity: Rarity?,
-    image: string,
+	-- Prefer passing the entire item for flexibility
+	item: any?,
     layoutOrder: number?,
     getState: (() -> any)?,
 }
@@ -61,10 +58,42 @@ return function(props: Props)
     local isHover, setIsHover = React.useState(false)
     local isToggled, setIsToggled = React.useState(false)
 
-    local price = getPriceFor(state, props.market_hash_name)
+	local item = props.item :: Types.SkinItem
+	local marketHashName = (item :: Types.SkinItem).market_hash_name :: string
+	local name = (item :: Types.SkinItem).name :: string
+	local rarity: Rarity? = (item :: Types.SkinItem).rarity
+
+	local price = getPriceFor(state, marketHashName)
     local priceLabel = if price > 0 then string.format("$%0.2f", price) else ""
 
     local showSell = isHover or isToggled
+
+	local strippedName = stripParenthetical(name)
+	local leftName = strippedName
+	local rightName = ""
+	local barIndex = string.find(strippedName, "|", 1, true)
+	if barIndex then
+		leftName = string.gsub(string.sub(strippedName, 1, barIndex - 1), "%s+$", "")
+		rightName = string.gsub(string.sub(strippedName, barIndex + 1), "^%s+", "")
+	end
+
+    local phaseText: string = if typeof(item.phase) == "string" then (item.phase :: string) else ""
+    local rightNameWithPhase = if phaseText ~= "" then (rightName ~= "" and (rightName .. " (" .. phaseText .. ")") or phaseText) else rightName
+    if item.phase then
+        warn("Phase detected for item", item.market_hash_name)
+        print("rightNameWithPhase", rightNameWithPhase)
+    end
+
+	local starSource = if typeof(marketHashName) == "string" then marketHashName else strippedName
+	local isStar = false
+	if typeof(starSource) == "string" then
+		local trimmedSource = string.gsub(starSource, "^%s+", "")
+		isStar = string.match(trimmedSource, "^★") ~= nil
+	end
+	local rarityColorHex = if rarity and rarity.color then rarity.color else "#ffffff"
+	if isStar then
+		rarityColorHex = "#e4ae39"
+	end
 
     return React.createElement("Frame", {
         Name = "ItemCard",
@@ -86,7 +115,7 @@ return function(props: Props)
     }, {
         icon = React.createElement("ImageLabel", {
             BackgroundTransparency = 1,
-            Image = props.image,
+            Image = props.item.image,
             ScaleType = Enum.ScaleType.Fit,
             Size = UDim2.fromScale(1, 0.734765),
             ZIndex = 2,
@@ -122,10 +151,11 @@ return function(props: Props)
                 Enum.FontStyle.Normal
             ),
             Position = UDim2.fromScale(0.03, 0.54),
-            Size = UDim2.fromScale(0.153323, 0.196574),
-            Text = getWearAbbreviation(if props.wear then props.wear.name else nil),
+            Size = UDim2.fromScale(0.2, 0.176),
+            Text = getWearAbbreviation(if item.wear then item.wear.name else nil),
             TextColor3 = Color3.new(1, 1, 1),
             TextScaled = true,
+            TextXAlignment = Enum.TextXAlignment.Left,
             ZIndex = 3,
         }, {
             uIStroke = React.createElement("UIStroke", {
@@ -165,8 +195,8 @@ return function(props: Props)
                 Enabled = false,
                 Thickness = 3,
             }),
-            rarity = React.createElement("Frame", {
-                BackgroundColor3 = Color3.fromHex(if props.rarity and props.rarity.color then props.rarity.color else "#ffffff"),
+				rarity = React.createElement("Frame", {
+					BackgroundColor3 = Color3.fromHex(rarityColorHex),
                 BorderSizePixel = 0,
                 Position = UDim2.fromScale(0, 0.94),
                 Size = UDim2.fromScale(1, 0.06),
@@ -177,9 +207,10 @@ return function(props: Props)
             text = if price > 0 then string.format("Sell for $%0.2f", price) else "Sell",
             position = UDim2.fromScale(0, 0.826),
             size = UDim2.fromScale(1, 0.290347),
+            color = Color3.fromHex("#4fff46"),
             visible = showSell,
             onActivated = function()
-                InventoryActions.SellItem(props.market_hash_name)
+                InventoryActions.SellItem(marketHashName)
             end,
         }),
 
@@ -197,7 +228,7 @@ return function(props: Props)
                 ),
                 Position = UDim2.fromScale(0, -3.1516e-06),
                 Size = UDim2.fromScale(1, 0.5),
-                Text = stripParenthetical(props.name),
+				Text = leftName,
                 TextColor3 = Color3.new(1, 1, 1),
                 TextScaled = true,
                 TextXAlignment = Enum.TextXAlignment.Left,
@@ -217,7 +248,7 @@ return function(props: Props)
                 Position = UDim2.fromScale(0, 0.791963),
                 RichText = true,
                 Size = UDim2.fromScale(1, 0.45),
-                Text = if props.rarity then props.rarity.name else "",
+                Text = rightNameWithPhase,
                 TextColor3 = Color3.new(1, 1, 1),
                 TextScaled = true,
                 TextXAlignment = Enum.TextXAlignment.Left,

@@ -1,6 +1,7 @@
 -- Minimal global state container powered by React hooks
 local React = require("@Packages/React")
 local Network = require("@Network")
+local Types = require("@SharedModules/Types")
 
 type Wear = {
     id: string,
@@ -13,14 +14,7 @@ type Rarity = {
     color: string,
 }
 
-type InventoryItem = {
-    market_hash_name: string,
-    name: string,
-    stattrak: boolean?,
-    wear: Wear?,
-    rarity: Rarity?,
-    image: string,
-}
+type SkinItem = Types.SkinItem
 
 local InventoryState = {}
 
@@ -31,9 +25,9 @@ local function ProviderComponent(props: any)
     local autoSellMinimumCents, setAutoSellMinimumCents = React.useState(0)
     local sort, setSort = React.useState("newest")
     local prices, setPrices = React.useState({} :: any)
-local provided = if props then props.initialInventoryItems else nil
-local initialItems: {InventoryItem} = if typeof(provided) == "table" then (provided :: {InventoryItem}) else {}
-    local inventoryItems, setInventoryItems = React.useState(initialItems :: {InventoryItem})
+    local provided = if props then props.initialInventoryItems else nil
+    local initialItems: {SkinItem} = if typeof(provided) == "table" then (provided :: {SkinItem}) else {}
+    local inventoryItems: {SkinItem}, setInventoryItems = React.useState(initialItems :: {SkinItem})
 
     React.useEffect(function()
         -- Fetch initial data from server services
@@ -63,7 +57,7 @@ function InventoryState.Provider(props)
     return React.createElement(ProviderComponent :: any, props)
 end
 
-function InventoryState.Wrap(child: any, initial: {InventoryItem}?)
+function InventoryState.Wrap(child: any, initial: {SkinItem}?)
     return React.createElement(ProviderComponent :: any, { initialInventoryItems = initial }, child)
 end
 

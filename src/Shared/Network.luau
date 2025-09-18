@@ -24,6 +24,7 @@
 
 --// Requires //--
 local TypedRemote = require("@Packages/TypedRemote")
+local Types = require("@SharedModules/Types")
 
 --// Types //--
 type RF<T..., R...> = TypedRemote.Function<T..., R...>
@@ -42,10 +43,8 @@ return {
 	MyFunction = Get_RF("MyRemoteFunctionLol") :: RF<(boolean, string), (number)>,
     ]]
 
-    ProximityPromptTriggered = Create_RE("ProximityPromptTriggered") :: RE<(number)>,
-
     -- Inventory / Catalog remotes
-    GetPrices = Create_RF("GetPrices") :: RF<(), ({ [string]: any })>,
-    GetSkins = Create_RF("GetSkins") :: RF<(), ({ any })>,
-    SellItem = Create_RE("SellItem") :: RE<(string)>,
+    GetPrices = Create_RF("GetPrices") :: RF<(), (Types.PriceMap)>,
+    GetSkins = Create_RF("GetSkins") :: RF<(), ({ Types.SkinItem })>,
+    SellItem = Create_RE("SellItem") :: RE<(Types.SellItemPayload)>,
 }

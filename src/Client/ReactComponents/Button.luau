@@ -9,7 +9,7 @@
 
 local React = require("@Packages/React")
 
-type Props = {
+export type ButtonProps = {
     text: string,
     color: Color3?,
     layoutOrder: number?,
@@ -19,7 +19,7 @@ type Props = {
     onActivated: (() -> ())?,
 }
 
-return function(props: Props)
+return function(props: ButtonProps)
     return React.createElement("ImageButton", {
         Active = true,
         BackgroundTransparency = 1,
