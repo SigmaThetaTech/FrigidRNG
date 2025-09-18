@@ -67,6 +67,30 @@ local function getPhaseHex(patternName: string?, phaseText: string?): string?
     return nil
 end
 
+local function formatPriceUSD(amount: number): string
+    if typeof(amount) ~= "number" then
+        return ""
+    end
+    local negative = amount < 0
+    local absAmount = if negative then -amount else amount
+    local whole = math.floor(absAmount)
+    local cents = math.floor((absAmount - whole) * 100 + 0.5)
+    if cents >= 100 then
+        whole += 1
+        cents -= 100
+    end
+    local s = tostring(whole)
+    local rev = string.reverse(s)
+    local withCommasRev = string.gsub(rev, "(%d%d%d)", "%1,")
+    local withCommas = string.reverse(withCommasRev):gsub("^,", "")
+    local formatted = withCommas .. string.format(".%02d", cents)
+    if negative then
+        return "-$" .. formatted
+    else
+        return "$" .. formatted
+    end
+end
+
 local function getPriceFor(state, marketHashName: string): number
     local entry: any = (state.prices :: any)[marketHashName]
     if typeof(entry) == "table" then
@@ -102,7 +126,7 @@ return function(props: Props)
 	local rarity: Rarity? = (item :: Types.SkinItem).rarity
 
 	local price = getPriceFor(state, marketHashName)
-    local priceLabel = if price > 0 then string.format("$%0.2f", price) else ""
+    local priceLabel = if price > 0 then formatPriceUSD(price) else ""
 
     local showSell = isHover or isToggled
 
@@ -241,7 +265,7 @@ return function(props: Props)
         }),
 
         sellButton = React.createElement(Button :: any, {
-            text = if price > 0 then string.format("Sell for $%0.2f", price) else "Sell",
+            text = if price > 0 then ("Sell for " .. formatPriceUSD(price)) else "Sell",
             position = UDim2.fromScale(0, 0.826),
             size = UDim2.fromScale(1, 0.290347),
             color = Color3.fromHex("#4fff46"),
