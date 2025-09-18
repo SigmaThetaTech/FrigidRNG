@@ -70,6 +70,15 @@ end
 local function getPriceFor(state, marketHashName: string): number
     local entry: any = (state.prices :: any)[marketHashName]
     if typeof(entry) == "table" then
+        -- Prefer csfloat vendor when available
+        local csfloat: any = (entry :: any)["csfloat"]
+        if typeof(csfloat) == "table" then
+            local cents: any = csfloat["min_price"]
+            if typeof(cents) == "number" then
+                return cents
+            end
+        end
+        -- Fallback to steam vendor
         local steam: any = entry["steam"]
         if typeof(steam) == "table" then
             local v: any = steam["last_ever"]

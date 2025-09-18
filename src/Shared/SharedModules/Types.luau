@@ -68,9 +68,13 @@ export type SkinItem = {
 -- Mapping of market_hash_name -> price vendor map
 -- Example: prices["AK-47 | Redline (Field-Tested)"] = { steam = { last_ever = 1234 } }
 export type PriceVendorEntry = {
-	steam: {
-		last_ever: number?,
-	}?,
+    steam: {
+        last_ever: number?,
+    }?,
+    -- Prices sourced from CSFloat API (values in USD dollars)
+    csfloat: {
+        min_price: number?,
+    }?,
 }
 
 export type PriceMap = { [string]: PriceVendorEntry }
