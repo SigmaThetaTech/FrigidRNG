@@ -1,14 +1,15 @@
 local React = require("@Packages/React")
-local Network = require("@Network")
+local InventoryActions = require("@Client/Actions/InventoryActions")
 
 local Button = require("@Client/ReactComponents/Button")
 local AutoSellInput = require("@Client/ReactComponents/AutoSellInput")
 
--- Simple global state via ModuleScript for now
-local InventoryState = require("@Client/State/InventoryState")
+type Props = {
+    getState: (() -> any)?,
+}
 
-return function()
-    local state: any = InventoryState.use()
+return function(props: Props)
+    local state: any = if props and props.getState then props.getState() else error("Sidebar requires getState prop")
 
     return React.createElement("Frame", {
         BackgroundTransparency = 1,
@@ -153,7 +154,7 @@ return function()
                 local hex = "#b0c3d9"
                 for _, item in state.inventoryItems do
                     if item.rarity and typeof(item.rarity.color) == "string" and string.lower(item.rarity.color) == hex then
-                        (Network.SellItem :: any):FireServer((item :: any).market_hash_name)
+                        InventoryActions.SellItem((item :: any).market_hash_name)
                     end
                 end
             end }),
@@ -161,7 +162,7 @@ return function()
                 local hex = "#5e98d9"
                 for _, item in state.inventoryItems do
                     if item.rarity and typeof(item.rarity.color) == "string" and string.lower(item.rarity.color) == hex then
-                        (Network.SellItem :: any):FireServer((item :: any).market_hash_name)
+                        InventoryActions.SellItem((item :: any).market_hash_name)
                     end
                 end
             end }),
@@ -169,7 +170,7 @@ return function()
                 local hex = "#4b69ff"
                 for _, item in state.inventoryItems do
                     if item.rarity and typeof(item.rarity.color) == "string" and string.lower(item.rarity.color) == hex then
-                        (Network.SellItem :: any):FireServer((item :: any).market_hash_name)
+                        InventoryActions.SellItem((item :: any).market_hash_name)
                     end
                 end
             end }),
@@ -177,7 +178,7 @@ return function()
                 local hex = "#8847ff"
                 for _, item in state.inventoryItems do
                     if item.rarity and typeof(item.rarity.color) == "string" and string.lower(item.rarity.color) == hex then
-                        (Network.SellItem :: any):FireServer((item :: any).market_hash_name)
+                        InventoryActions.SellItem((item :: any).market_hash_name)
                     end
                 end
             end }),
@@ -185,7 +186,7 @@ return function()
                 local hex = "#d32ce6"
                 for _, item in state.inventoryItems do
                     if item.rarity and typeof(item.rarity.color) == "string" and string.lower(item.rarity.color) == hex then
-                        (Network.SellItem :: any):FireServer((item :: any).market_hash_name)
+                        InventoryActions.SellItem((item :: any).market_hash_name)
                     end
                 end
             end }),
@@ -193,7 +194,7 @@ return function()
                 local hex = "#eb4b4b"
                 for _, item in state.inventoryItems do
                     if item.rarity and typeof(item.rarity.color) == "string" and string.lower(item.rarity.color) == hex then
-                        (Network.SellItem :: any):FireServer((item :: any).market_hash_name)
+                        InventoryActions.SellItem((item :: any).market_hash_name)
                     end
                 end
             end }),
@@ -201,7 +202,7 @@ return function()
                 local hex = "#e4ae33"
                 for _, item in state.inventoryItems do
                     if item.rarity and typeof(item.rarity.color) == "string" and string.lower(item.rarity.color) == hex then
-                        (Network.SellItem :: any):FireServer((item :: any).market_hash_name)
+                        InventoryActions.SellItem((item :: any).market_hash_name)
                     end
                 end
             end }),

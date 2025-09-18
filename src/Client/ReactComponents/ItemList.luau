@@ -1,6 +1,5 @@
 local React = require("@Packages/React")
 local ItemCard = require("@Client/ReactComponents/ItemCard")
-local InventoryState = require("@Client/State/InventoryState")
 
 type Props = {
     -- pass a hook so this list can be reused with different stores
@@ -32,7 +31,7 @@ local RARITY_WEIGHT_BY_HEX: { [string]: number } = {
 }
 
 return function(props: Props)
-    local state: any = if props and props.getState then props.getState() else InventoryState.use()
+    local state: any = if props and props.getState then props.getState() else error("ItemList requires getState prop")
 
     local items: { any } = {}
     for _, item in (state.inventoryItems :: any) do
@@ -84,6 +83,7 @@ return function(props: Props)
             rarity = item.rarity,
             image = item.image,
             layoutOrder = i,
+            getState = props.getState,
         })
     end
 

@@ -19,7 +19,9 @@ return function(_props)
             DominantAxis = Enum.DominantAxis.Height,
         }),
 
-        sidebar = React.createElement(Sidebar :: any),
+        sidebar = React.createElement(Sidebar :: any, {
+            getState = InventoryState.use,
+        }),
         itemList = React.createElement(ItemList :: any, {
             getState = InventoryState.use,
         }),

@@ -1,7 +1,6 @@
 local React = require("@Packages/React")
 local Button = require("@Client/ReactComponents/Button")
-local InventoryState = require("@Client/State/InventoryState")
-local Network = require("@Network")
+local InventoryActions = require("@Client/Actions/InventoryActions")
 
 type Wear = { id: string, name: string }
 type Rarity = { id: string, name: string, color: string }
@@ -14,6 +13,7 @@ type Props = {
     rarity: Rarity?,
     image: string,
     layoutOrder: number?,
+    getState: (() -> any)?,
 }
 
 local function getWearAbbreviation(wearName: string?): string
@@ -56,7 +56,7 @@ local function getPriceFor(state, marketHashName: string): number
 end
 
 return function(props: Props)
-    local state: any = InventoryState.use()
+    local state: any = if props and props.getState then props.getState() else nil
 
     local isHover, setIsHover = React.useState(false)
     local isToggled, setIsToggled = React.useState(false)
@@ -179,7 +179,7 @@ return function(props: Props)
             size = UDim2.fromScale(1, 0.290347),
             visible = showSell,
             onActivated = function()
-                (Network.SellItem :: any):FireServer(props.market_hash_name)
+                InventoryActions.SellItem(props.market_hash_name)
             end,
         }),
 
