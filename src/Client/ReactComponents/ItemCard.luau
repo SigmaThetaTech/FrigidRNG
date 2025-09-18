@@ -30,6 +30,17 @@ local function getWearAbbreviation(wearName: string?): string
     return abbreviation
 end
 
+local function stripParenthetical(text: string?): string
+    if typeof(text) ~= "string" then
+        return ""
+    end
+    local stripped = string.gsub(text, "%s*%b()%s*", " ")
+    stripped = string.gsub(stripped, "%s%s+", " ")
+    stripped = string.gsub(stripped, "^%s+", "")
+    stripped = string.gsub(stripped, "%s+$", "")
+    return stripped
+end
+
 local function getPriceFor(state, marketHashName: string): number
     local entry: any = (state.prices :: any)[marketHashName]
     if typeof(entry) == "table" then
@@ -88,7 +99,8 @@ return function(props: Props)
                 Enum.FontWeight.Heavy,
                 Enum.FontStyle.Normal
             ),
-            Position = UDim2.fromScale(0.307653, 0.0131983),
+            AnchorPoint = Vector2.new(1, 0),
+            Position = UDim2.new(1, -8, 0, 4),
             Size = UDim2.fromScale(0.65, 0.165792),
             Text = priceLabel,
             TextColor3 = Color3.fromRGB(60, 242, 36),
@@ -127,7 +139,7 @@ return function(props: Props)
             BackgroundTransparency = 1,
             HoverImage = "rbxassetid://119465132139520",
             Image = "rbxassetid://124090224876766",
-            Position = UDim2.fromScale(0.01, 0.01),
+            Position = UDim2.new(0.01, 4, 0.01, 4),
             Selectable = false,
             Size = UDim2.fromScale(0.13, 0.168989),
             ZIndex = 3,
@@ -135,7 +147,7 @@ return function(props: Props)
 
         background = React.createElement("Frame", {
             BackgroundColor3 = Color3.new(1, 1, 1),
-            Position = UDim2.fromScale(-0.0101523, -0.0131971),
+            Position = UDim2.fromScale(0, 0),
             Size = UDim2.fromScale(1, 0.795704),
         }, {
             uICorner = React.createElement("UICorner", {
@@ -163,7 +175,7 @@ return function(props: Props)
 
         sellButton = React.createElement(Button :: any, {
             text = if price > 0 then string.format("Sell for $%0.2f", price) else "Sell",
-            position = UDim2.fromScale(-0.0101523, 0.826),
+            position = UDim2.fromScale(0, 0.826),
             size = UDim2.fromScale(1, 0.290347),
             visible = showSell,
             onActivated = function()
@@ -173,7 +185,7 @@ return function(props: Props)
 
         bottomFrame = React.createElement("Frame", {
             BackgroundTransparency = 1,
-            Position = UDim2.fromScale(0, 0.826),
+            Position = UDim2.new(0, 1, 0.826, 0),
             Size = UDim2.fromScale(0.989848, 0.25),
         }, {
             line1 = React.createElement("TextLabel", {
@@ -185,7 +197,7 @@ return function(props: Props)
                 ),
                 Position = UDim2.fromScale(0, -3.1516e-06),
                 Size = UDim2.fromScale(1, 0.5),
-                Text = props.name,
+                Text = stripParenthetical(props.name),
                 TextColor3 = Color3.new(1, 1, 1),
                 TextScaled = true,
                 TextXAlignment = Enum.TextXAlignment.Left,
