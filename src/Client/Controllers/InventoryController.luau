@@ -51,7 +51,6 @@ function InventoryController:InterlaceStart()
         local count = 0
         for _, skinItem: Types.SkinItem in skins do
             if typeof(skinItem) == "table" and skinItem.name and skinItem.image and skinItem.market_hash_name then
-                print("Inserting skinItem", skinItem)
                 table.insert(initialItems, skinItem)
                 count += 1
                 if count >= 2000 then break end

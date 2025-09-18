@@ -111,10 +111,6 @@ return function(props: Props)
     local phaseHex = getPhaseHex(patternName, phaseText)
     local renderedPhaseText = if phaseHex and phaseText ~= "" then ("<font color=\"" .. phaseHex .. "\">" .. phaseText .. "</font>") else phaseText
     local rightNameWithPhase = if phaseText ~= "" then (rightName ~= "" and (rightName .. " (" .. renderedPhaseText .. ")") or renderedPhaseText) else rightName
-    if item.phase then
-        warn("Phase detected for item", item.market_hash_name)
-        print("rightNameWithPhase", rightNameWithPhase)
-    end
 
 	local starSource = if typeof(marketHashName) == "string" then marketHashName else strippedName
 	local isStar = false
