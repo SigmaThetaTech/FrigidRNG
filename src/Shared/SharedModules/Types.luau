@@ -70,10 +70,12 @@ export type SkinItem = {
 export type PriceVendorEntry = {
     steam: {
         last_ever: number?,
+        last_updated: number?,
     }?,
     -- Prices sourced from CSFloat API (values in USD dollars)
     csfloat: {
         min_price: number?,
+        last_updated: number?,
     }?,
 }
 

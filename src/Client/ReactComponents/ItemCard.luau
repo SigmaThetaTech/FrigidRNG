@@ -2,6 +2,7 @@ local React = require("@Packages/React")
 local Button = require("@Client/ReactComponents/Button")
 local InventoryActions = require("@Client/Actions/InventoryActions")
 local Types = require("@SharedModules/Types")
+local PricesState = require("@Client/State/PricesState")
 
 type Wear = { id: string, name: string }
 type Rarity = { id: string, name: string, color: string }
@@ -91,8 +92,8 @@ local function formatPriceUSD(amount: number): string
     end
 end
 
-local function getPriceFor(state, marketHashName: string): number
-    local entry: any = (state.prices :: any)[marketHashName]
+local function getPriceFor(prices: any, marketHashName: string): number
+    local entry: any = (prices :: any)[marketHashName]
     if typeof(entry) == "table" then
         -- Prefer csfloat vendor when available
         local csfloat: any = (entry :: any)["csfloat"]
@@ -114,8 +115,63 @@ local function getPriceFor(state, marketHashName: string): number
     return 0
 end
 
+local function getLastUpdatedFor(prices: any, marketHashName: string): number?
+    local entry: any = (prices :: any)[marketHashName]
+    if typeof(entry) == "table" then
+        -- Prefer csfloat vendor when available, matching pricing preference
+        local csfloat: any = (entry :: any)["csfloat"]
+        if typeof(csfloat) == "table" then
+            local cents: any = csfloat["min_price"]
+            if typeof(cents) == "number" then
+                local ts: any = csfloat["last_updated"]
+                if typeof(ts) == "number" then
+                    return ts
+                end
+            end
+        end
+        local steam: any = entry["steam"]
+        if typeof(steam) == "table" then
+            local v: any = steam["last_ever"]
+            if typeof(v) == "number" then
+                local ts2: any = steam["last_updated"]
+                if typeof(ts2) == "number" then
+                    return ts2
+                end
+            end
+        end
+    end
+    return nil
+end
+
+local function formatLastUpdatedLabel(nowSeconds: number, lastUpdated: number?): (string, number)
+    if typeof(lastUpdated) ~= "number" then
+        return "", 60
+    end
+    local delta = nowSeconds - (lastUpdated :: number)
+    if delta < 0 then
+        delta = 0
+    end
+    if delta < 60 then
+        local nextIn = 60 - (delta % 60)
+        return "<1m ago", nextIn
+    elseif delta < 3600 then
+        local minutes = math.floor(delta / 60)
+        local nextIn = 60 - (delta % 60)
+        return string.format("%dm ago", minutes), nextIn
+    else
+        local hours = math.floor(delta / 3600)
+        local nextIn = 3600 - (delta % 3600)
+        if hours == 1 then
+            return "1hr ago", nextIn
+        else
+            return string.format("%dhrs ago", hours), nextIn
+        end
+    end
+end
+
 return function(props: Props)
-    local state: any = if props and props.getState then props.getState() else nil
+    local _state: any = if props and props.getState then props.getState() else nil
+    local pricesCtx: any = PricesState.use()
 
     local isHover, setIsHover = React.useState(false)
     local isToggled, setIsToggled = React.useState(false)
@@ -125,8 +181,24 @@ return function(props: Props)
 	local name = (item :: Types.SkinItem).name :: string
 	local rarity: Rarity? = (item :: Types.SkinItem).rarity
 
-	local price = getPriceFor(state, marketHashName)
-    local priceLabel = if price > 0 then formatPriceUSD(price) else ""
+	local price = getPriceFor(pricesCtx.prices, marketHashName)
+	local priceLabel = if price > 0 then formatPriceUSD(price) else ""
+
+	local lastUpdated = getLastUpdatedFor(pricesCtx.prices, marketHashName)
+	local updatedLabel = (function()
+		local now = os.time()
+		local label = select(1, formatLastUpdatedLabel(now, lastUpdated))
+		return label
+	end)()
+	-- Read appropriate tick to trigger re-render at needed cadence
+	if typeof(lastUpdated) == "number" then
+		local delta = os.time() - (lastUpdated :: number)
+		if delta < 3600 then
+			local _t = pricesCtx.minuteTick
+		else
+			local _t2 = pricesCtx.hourTick
+		end
+	end
 
     local showSell = isHover or isToggled
 
@@ -201,6 +273,22 @@ return function(props: Props)
             uIStroke = React.createElement("UIStroke", {
                 Thickness = 1.5,
                 Transparency = 0.5,
+            }),
+            updatedAt = React.createElement("TextLabel", {
+                AnchorPoint = Vector2.new(1, 0),
+                BackgroundTransparency = 1,
+                Position = UDim2.fromScale(1, 1),
+                Size = UDim2.fromScale(0.6, 0.6),
+                Text = updatedLabel,
+                TextColor3 = Color3.new(1, 1, 1),
+                TextScaled = true,
+                TextXAlignment = Enum.TextXAlignment.Right,
+                ZIndex = 4,
+            }, {
+                uIStroke = React.createElement("UIStroke", {
+                    Thickness = 1,
+                    Transparency = 0.6,
+                }),
             }),
         }),
 

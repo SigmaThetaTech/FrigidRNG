@@ -1,6 +1,5 @@
 -- Minimal global state container powered by React hooks
 local React = require("@Packages/React")
-local Network = require("@Network")
 local Types = require("@SharedModules/Types")
 
 type Wear = {
@@ -24,19 +23,11 @@ local context: any = React.createContext(nil)
 local function ProviderComponent(props: any)
     local autoSellMinimumCents, setAutoSellMinimumCents = React.useState(0)
     local sort, setSort = React.useState("newest")
-    local prices, setPrices = React.useState({} :: any)
     local provided = if props then props.initialInventoryItems else nil
     local initialItems: {SkinItem} = if typeof(provided) == "table" then (provided :: {SkinItem}) else {}
     local inventoryItems: {SkinItem}, setInventoryItems = React.useState(initialItems :: {SkinItem})
 
     React.useEffect(function()
-        -- Fetch initial data from server services
-        task.spawn(function()
-            local ok1, serverPrices = pcall(function() return (Network.GetPrices :: any):InvokeServer() end)
-            if ok1 and typeof(serverPrices) == "table" then
-                setPrices(serverPrices)
-            end
-        end)
         -- Skins are seeded by the controller; no fetch here
     end, {})
 
@@ -46,7 +37,6 @@ local function ProviderComponent(props: any)
             setAutoSellMinimumCents = setAutoSellMinimumCents,
             sort = sort,
             setSort = setSort,
-            prices = prices,
             inventoryItems = inventoryItems,
             setInventoryItems = setInventoryItems,
         },

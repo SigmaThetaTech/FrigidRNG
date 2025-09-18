@@ -51,6 +51,16 @@ end
 local function fetchByMykel(): PricesTable
     local json = safeGetJson(BYMYKEL_URL)
     if typeof(json) == "table" then
+        -- Add last_updated timestamp on steam vendor entries
+        local now = os.time()
+        for name, vendorEntry in pairs(json :: any) do
+            if typeof(vendorEntry) == "table" then
+                local steam = (vendorEntry :: any)["steam"]
+                if typeof(steam) == "table" then
+                    (steam :: any)["last_updated"] = now
+                end
+            end
+        end
         return json :: any
     end
     return {}
@@ -61,6 +71,7 @@ local function fetchCSFloat(): PricesTable
     local json = safeGetJson(CSFLOAT_URL)
     local map: PricesTable = {}
     if typeof(json) == "table" then
+        local now = os.time()
         for _, entry in (json :: any) do
             if typeof(entry) == "table" then
                 local name: any = (entry :: any)["market_hash_name"]
@@ -72,7 +83,7 @@ local function fetchCSFloat(): PricesTable
                         existing = {}
                         map[name] = existing
                     end
-                    (existing :: any)["csfloat"] = { min_price = dollars }
+                    (existing :: any)["csfloat"] = { min_price = dollars, last_updated = now }
                 end
             end
         end

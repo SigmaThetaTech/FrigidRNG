@@ -61,8 +61,9 @@ function InventoryController:InterlaceStart()
     _root = ReactRoblox.createRoot(screenGui)
     -- Provide state with initial items and render the Inventory content as child
     local InventoryState = require("@Client/State/InventoryState")
+    local PricesState = require("@Client/State/PricesState")
     -- Compose the tree using the helper that wraps with the provider
-    _root:render((InventoryState.Wrap(React.createElement(Inventory), initialItems)) :: any)
+    _root:render((PricesState.Wrap(InventoryState.Wrap(React.createElement(Inventory), initialItems))) :: any)
 end
 
 return InventoryController

@@ -1,6 +1,7 @@
 local React = require("@Packages/React")
 local ItemCard = require("@Client/ReactComponents/ItemCard")
 local Types = require("@SharedModules/Types")
+local PricesState = require("@Client/State/PricesState")
 
 type Props = {
     -- pass a hook so this list can be reused with different stores
@@ -42,13 +43,14 @@ local RARITY_WEIGHT_BY_HEX: { [string]: number } = {
 
 return function(props: Props)
     local state: any = if props and props.getState then props.getState() else error("ItemList requires getState prop")
+    local pricesCtx: any = PricesState.use()
 
     local items: { Types.SkinItem } = {}
     for _, item in (state.inventoryItems) do
         table.insert(items, item :: Types.SkinItem)
     end
 
-    local prices: any = state.prices
+    local prices: any = pricesCtx.prices
 
     if state.sort == "price" then
         table.sort(items, function(a: any, b: any)
