@@ -14,9 +14,10 @@ local HttpService = game:GetService("HttpService")
 
 --Σ Requires Σ--
 local Network = require("@Network")
+local Types = require("@SharedModules/Types")
 
 --Σ Types Σ--
-type SkinsArray = { any }
+type SkinsArray = { Types.SkinItem }
 
 --Σ Constants Σ--
 local SKINS_URL = "https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/skins_not_grouped.json"
@@ -64,13 +65,13 @@ end
 --------------------------------------------------------------------------------
 
 function SkinsService:InterlaceInit()
-    Network.GetSkins.OnServerInvoke = function(_player)
+    (Network.GetSkins :: RemoteFunction).OnServerInvoke = function(_player: Player): { Types.SkinItem }
         if not _skinsInitialized then
             while not _skinsInitialized do
                 task.wait(0.1)
             end
         end
-        return _skins
+        return _skins :: { Types.SkinItem }
     end
 end
 

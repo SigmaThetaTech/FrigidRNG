@@ -31,7 +31,7 @@ type RF<T..., R...> = TypedRemote.Function<T..., R...>
 type RE<T...> = TypedRemote.Event<T...>
 
 --// Volatiles //--
-local Create_RF, Create_RE = TypedRemote.parent(script)
+local Create_RF: (string) -> RemoteFunction, Create_RE: (string) -> RemoteEvent = TypedRemote.parent(script)
 
 -- Define network table:
 return {
