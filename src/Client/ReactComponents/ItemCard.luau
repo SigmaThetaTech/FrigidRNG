@@ -38,6 +38,35 @@ local function stripParenthetical(text: string?): string
     return stripped
 end
 
+local function getPhaseHex(patternName: string?, phaseText: string?): string?
+    if typeof(patternName) ~= "string" or typeof(phaseText) ~= "string" then
+        return nil
+    end
+    local nameLower = string.lower(patternName)
+    if nameLower == "doppler" then
+        local map = {
+            ["Phase 1"] = "#2a1f2c",
+            ["Phase 2"] = "#410f23",
+            ["Phase 3"] = "#0f0e33",
+            ["Phase 4"] = "#0a176f",
+            ["Sapphire"] = "#4734d8",
+            ["Ruby"] = "#c51f35",
+            ["Black Pearl"] = "#151420",
+        }
+        return map[phaseText]
+    elseif nameLower == "gamma doppler" then
+        local map = {
+            ["Phase 1"] = "#0e2422",
+            ["Phase 2"] = "#1f4e35",
+            ["Phase 3"] = "#15333d",
+            ["Phase 4"] = "#40632b",
+            ["Emerald"] = "#0faa3b",
+        }
+        return map[phaseText]
+    end
+    return nil
+end
+
 local function getPriceFor(state, marketHashName: string): number
     local entry: any = (state.prices :: any)[marketHashName]
     if typeof(entry) == "table" then
@@ -78,7 +107,10 @@ return function(props: Props)
 	end
 
     local phaseText: string = if typeof(item.phase) == "string" then (item.phase :: string) else ""
-    local rightNameWithPhase = if phaseText ~= "" then (rightName ~= "" and (rightName .. " (" .. phaseText .. ")") or phaseText) else rightName
+    local patternName: string? = if (item :: any).pattern and typeof((item :: any).pattern.name) == "string" then ((item :: any).pattern.name :: string) else nil
+    local phaseHex = getPhaseHex(patternName, phaseText)
+    local renderedPhaseText = if phaseHex and phaseText ~= "" then ("<font color=\"" .. phaseHex .. "\">" .. phaseText .. "</font>") else phaseText
+    local rightNameWithPhase = if phaseText ~= "" then (rightName ~= "" and (rightName .. " (" .. renderedPhaseText .. ")") or renderedPhaseText) else rightName
     if item.phase then
         warn("Phase detected for item", item.market_hash_name)
         print("rightNameWithPhase", rightNameWithPhase)
